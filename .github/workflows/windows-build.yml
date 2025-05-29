@@ -25,7 +25,7 @@ jobs:
         python -m pip install aqtinstall==3.1.*
 
     - name: List available Qt modules for 6.6.0 on Windows
-      run: python -m aqt list-qt windows desktop --arch win64_msvc2019_64 --version 6.6.0
+      run: python -m aqt list-qt windows desktop 6.6.0 win64_msvc2019_64
 
     - name: Install Qt 6.6.0 with required modules
       uses: jurplel/install-qt-action@v3
