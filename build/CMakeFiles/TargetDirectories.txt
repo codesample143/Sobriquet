@@ -1,5 +1,0 @@
-/Users/akaei/Desktop/C++ Projects/Sobriquet/build/CMakeFiles/main.dir
-/Users/akaei/Desktop/C++ Projects/Sobriquet/build/CMakeFiles/edit_cache.dir
-/Users/akaei/Desktop/C++ Projects/Sobriquet/build/CMakeFiles/rebuild_cache.dir
-/Users/akaei/Desktop/C++ Projects/Sobriquet/build/CMakeFiles/main_autogen_timestamp_deps.dir
-/Users/akaei/Desktop/C++ Projects/Sobriquet/build/CMakeFiles/main_autogen.dir
