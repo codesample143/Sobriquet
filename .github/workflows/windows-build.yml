@@ -21,9 +21,10 @@ jobs:
         target: desktop
         arch: win64_msvc2019_64
         modules: WebSockets Widgets Core Network Gui
+        outputdir: D:/Qt
 
     - name: Configure CMake
-      run: cmake -S . -B build -DCMAKE_PREFIX_PATH="${{ env.Qt6_DIR }}"
+      run: cmake -S . -B build -DCMAKE_PREFIX_PATH="D:/Qt/6.6.0/msvc2019_64/lib/cmake/Qt6"
 
     - name: Build
       run: cmake --build build --config Release
