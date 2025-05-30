@@ -31,11 +31,11 @@ jobs:
           --modules qtwebsockets qtcharts qtquick3d
 
     - name: Show installed Qt directory
-      run: dir Qt\6.6.0\msvc2019_64
+      run: dir Qt\6.6.0\msvc2022_64
 
     - name: Configure and build with CMake
       run: |
         mkdir build
         cd build
-        cmake .. -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="D:/a/Sobriquet/Qt/Qt/6.6.0/msvc2019_64"
+        cmake .. -G "Visual Studio 17 2022" -DCMAKE_PREFIX_PATH="D:/a/Sobriquet/Qt/Qt/6.6.0/msvc2022_64"
         cmake --build . --config Release
