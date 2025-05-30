@@ -14,44 +14,41 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Setup Python 3.11
+    - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: 3.11
 
-    - name: Install latest aqtinstall
+    - name: Install aqtinstall
       run: |
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install --upgrade aqtinstall
 
-    - name: Install Qt 6.6.0 with required modules (MSVC2022)
+    - name: Install Qt 6.6.0 (MSVC 2019, with extra modules)
       run: |
-        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtwebsockets qtcharts qtquick3d
-#it succeeds up to this point. How can i get a .exe from here?
+        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir Qt --modules qtwebsockets qtcharts qtquick3d
 
-    - name: Set Qt paths
-      run: |
-        echo "QT_DIR=${{ github.workspace }}\Qt\6.6.0\msvc2019_64" >> $GITHUB_ENV
+    - name: Set QT_DIR environment variable
+      run: echo "QT_DIR=${{ github.workspace }}\\Qt\\6.6.0\\msvc2019_64" >> $GITHUB_ENV
 
     - name: Add Qt bin to PATH
-      run: |
-        echo "${{ env.QT_DIR }}\bin" >> $GITHUB_PATH
+      run: echo "${{ env.QT_DIR }}\\bin" >> $GITHUB_PATH
 
     - name: Configure with CMake
       run: cmake -S . -B build -DCMAKE_PREFIX_PATH="${{ env.QT_DIR }}" -DCMAKE_BUILD_TYPE=Release
 
-    - name: Build project
+    - name: Build the project
       run: cmake --build build --config Release
 
-    - name: Deploy Qt dependencies (windeployqt)
+    - name: Run windeployqt on built .exe
       run: |
         "${{ env.QT_DIR }}\bin\windeployqt.exe" build\Release\MyApp.exe
 
-    - name: List output files
+    - name: List build output
       run: dir build\Release
 
-    - name: Upload .exe and dependencies
+    - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Sobriquet
+        name: MyQtApp
         path: build/Release/**
