@@ -29,10 +29,12 @@ jobs:
         python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir Qt --modules qtwebsockets qtcharts qtquick3d
 
     - name: Set QT_DIR environment variable
-      run: echo "QT_DIR=${{ github.workspace }}\\Qt\\6.6.0\\msvc2019_64" >> $GITHUB_ENV
+      shell: bash
+      run: echo "QT_DIR=$GITHUB_WORKSPACE/Qt/6.6.0/msvc2019_64" >> $GITHUB_ENV
 
-    - name: Add Qt bin to PATH
-      run: echo "${{ env.QT_DIR }}\\bin" >> $GITHUB_PATH
+    - name: Add Qt to PATH
+      shell: bash
+      run: echo "$QT_DIR/bin" >> $GITHUB_PATH
 
     - name: Configure with CMake
       run: cmake -S . -B build -DCMAKE_PREFIX_PATH="${{ env.QT_DIR }}" -DCMAKE_BUILD_TYPE=Release
@@ -40,9 +42,14 @@ jobs:
     - name: Build the project
       run: cmake --build build --config Release
 
+    - name: Find built .exe file
+      id: find_exe
+      run: |
+        for /f %%f in ('dir /s /b build\Release\*.exe') do echo "EXE_PATH=%%f" >> %GITHUB_ENV
+
     - name: Run windeployqt on built .exe
       run: |
-        "${{ env.QT_DIR }}\bin\windeployqt.exe" build\Release\MyApp.exe
+        "${{ env.QT_DIR }}\bin\windeployqt.exe" "${{ env.EXE_PATH }}"
 
     - name: List build output
       run: dir build\Release
@@ -50,5 +57,5 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: MyQtApp
+        name: QtApp
         path: build/Release/**
