@@ -24,12 +24,12 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install --upgrade aqtinstall
 
-    - name: List available Qt modules for 6.6.0 on Windows
+    - name: List available Qt modules for 6.6.0
       run: python -m aqt list-qt windows desktop --modules 6.6.0 win64_msvc2019_64
 
     - name: Install Qt 6.6.0 with required modules
-      run: |
-        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtbase qtwebsockets qtwidgets qtgui qtnetwork
+      # Replace module names here with what you get from previous step
+      run: python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules base widgets gui network websockets
 
     - name: Show installed Qt directory
       run: dir D:/a/Sobriquet/Qt/Qt
