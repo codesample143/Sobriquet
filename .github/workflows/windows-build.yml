@@ -49,8 +49,9 @@ jobs:
         echo "EXE_PATH=$($exe.FullName)" >> $env:GITHUB_ENV
 
     - name: Run windeployqt on built .exe
+      shell: pwsh
       run: |
-        "${{ env.QT_DIR }}\bin\windeployqt.exe" "${{ env.EXE_PATH }}"
+        & "${{ env.QT_DIR }}\bin\windeployqt.exe" "${{ env.EXE_PATH }}"
 
     - name: List build output
       run: dir build\Release
