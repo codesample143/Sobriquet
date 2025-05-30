@@ -2,8 +2,7 @@ name: Build Qt Project
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
 
 jobs:
@@ -19,18 +18,24 @@ jobs:
       with:
         python-version: 3.11
 
-    - name: Install latest aqtinstall
+    - name: Install aqtinstall
       run: |
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install --upgrade aqtinstall
 
-    - name: List available Qt modules for 6.6.0
-      run: python -m aqt list-qt windows desktop --modules 6.6.0 win64_msvc2019_64
-
     - name: Install Qt 6.6.0 with required modules
       run: |
-        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtwebsockets qtcharts qtquick3d
-        # Note: base, widgets, gui, network are part of the default install, so no need to specify them
+        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtbase qtwidgets qtgui qtnetwork qtwebsockets
 
-    - name: Show installed Qt directory
-      run: dir D:/a/Sobriquet/Qt/Qt
+    - name: Add Qt to PATH
+      run: |
+        echo "D:/a/Sobriquet/Qt/Qt/6.6.0/msvc2019_64/bin" | Out-File -Append -Encoding ascii $env:GITHUB_PATH
+
+    - name: Configure project with CMake
+      run: cmake -S . -B build -G "Visual Studio 16 2019" -A x64 -DCMAKE_PREFIX_PATH="D:/a/Sobriquet/Qt/Qt/6.6.0/msvc2019_64"
+
+    - name: Build the project
+      run: cmake --build build --config Release
+
+    - name: List .exe outputs
+      run: Get-ChildItem -Path build\Release -Filter *.exe
