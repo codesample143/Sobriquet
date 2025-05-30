@@ -1,4 +1,4 @@
-name: Build Qt Project
+name: Build Qt Project with MinGW
 
 on:
   push:
@@ -19,25 +19,27 @@ jobs:
       with:
         python-version: 3.11
 
-    - name: Install latest aqtinstall
+    - name: Install aqtinstall
       run: |
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install --upgrade aqtinstall
 
-    - name: Install Qt 6.6.0 with required modules (MSVC2022)
+    - name: Install Qt 6.6.0 with MinGW 64-bit
       run: |
-        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtwebsockets qtcharts qtquick3d
+        python -m aqt install-qt windows desktop 6.6.0 win64_mingw_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtwebsockets qtcharts qtquick3d
 
-    - name: Setup MSVC environment
+    - name: Add Qt and MinGW to PATH
       shell: cmd
       run: |
-        call "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+        set PATH=D:\a\Sobriquet\Qt\Qt\6.6.0\mingw_64\bin;%PATH%
+        echo %PATH%
 
-    - name: Add Qt to PATH
+    - name: Configure project with CMake (MinGW)
+      shell: cmd
       run: |
-        echo "::add-path::D:/a/Sobriquet/Qt/Qt/6.6.0/msvc2019_64/bin"
-        
-    - name: Configure and build with CMake
+        cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="D:/a/Sobriquet/Qt/Qt/6.6.0/mingw_64"
+
+    - name: Build project
+      shell: cmd
       run: |
-        cmake -B build -S . -G "NMake Makefiles" -DCMAKE_PREFIX_PATH="D:/a/Sobriquet/Qt/Qt/6.6.0/msvc2019_64"
-        cmake --build build --config Release
+        mingw32-make -C build
