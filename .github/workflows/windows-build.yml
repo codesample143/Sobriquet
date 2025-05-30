@@ -1,4 +1,4 @@
-name: Build Qt Project with MinGW
+name: Build Qt Project
 
 on:
   push:
@@ -19,27 +19,11 @@ jobs:
       with:
         python-version: 3.11
 
-    - name: Install aqtinstall
+    - name: Install latest aqtinstall
       run: |
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install --upgrade aqtinstall
 
-    - name: Install Qt 6.6.0 with MinGW 64-bit
+    - name: Install Qt 6.6.0 with required modules (MSVC2022)
       run: |
-        python -m aqt install-qt windows desktop 6.6.0 win64_mingw_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtwebsockets qtcharts qtquick3d
-
-    - name: Add Qt and MinGW to PATH
-      shell: cmd
-      run: |
-        set PATH=D:\a\Sobriquet\Qt\Qt\6.6.0\mingw_64\bin;%PATH%
-        echo %PATH%
-
-    - name: Configure project with CMake (MinGW)
-      shell: cmd
-      run: |
-        cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="D:/a/Sobriquet/Qt/Qt/6.6.0/mingw_64"
-
-    - name: Build project
-      shell: cmd
-      run: |
-        mingw32-make -C build
+        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2022_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtwebsockets qtcharts qtquick3d
