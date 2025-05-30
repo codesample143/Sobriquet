@@ -26,7 +26,7 @@ jobs:
 
     - name: Install Qt 6.6.0 with required modules (MSVC2019)
       run: |
-        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtbase qtgui qtwidgets qtnetwork qtwebsockets qtcharts qtquick3d
+        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtwebsockets qtcharts qtquick3d
 
     - name: Show installed Qt directory
       run: dir D:/a/Sobriquet/Qt/Qt/6.6.0/msvc2019_64
