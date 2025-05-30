@@ -28,8 +28,9 @@ jobs:
       run: python -m aqt list-qt windows desktop --modules 6.6.0 win64_msvc2019_64
 
     - name: Install Qt 6.6.0 with required modules
-      # Replace module names here with what you get from previous step
-      run: python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules base widgets gui network websockets
+      run: |
+        python -m aqt install-qt windows desktop 6.6.0 win64_msvc2019_64 --outputdir D:/a/Sobriquet/Qt/Qt --modules qtwebsockets qtcharts qtquick3d
+        # Note: base, widgets, gui, network are part of the default install, so no need to specify them
 
     - name: Show installed Qt directory
       run: dir D:/a/Sobriquet/Qt/Qt
