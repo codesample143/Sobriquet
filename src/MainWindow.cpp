@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
     socket = new QWebSocket();
     //server = new QWebSocketServer(QStringLiteral("Chat Server"), QWebSocketServer::NonSecureMode, this);
 
-    ui->setupUi(this);
+    ui->setupUi(this);                                          
     socket->open(QUrl(QStringLiteral("wss://basicgoserver.onrender.com/ws")));
 
     connect(socket, &QWebSocket::connected, this, &MainWindow::onConnected);
