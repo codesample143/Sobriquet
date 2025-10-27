@@ -7,11 +7,11 @@ find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network Gui WebSockets)
 
 qt_standard_project_setup()
 
-qt_add_executable(main 
+qt_add_executable(Sobriquet 
     ./src/main.cpp
     ./src/MainWindow.cpp
     ./src/MainWindow.hpp
-    src/MainWindow.ui
+    ./src/MainWindow.ui
 )
 
 #qt_add_executable(client 
@@ -29,10 +29,10 @@ qt_add_executable(main
     #./src/MainWindow.hpp
 #)
 
-target_link_libraries(main PRIVATE Qt6::Core Qt6::Widgets Qt6::Network)
-target_link_libraries(main PRIVATE Qt6::Widgets)
-target_link_libraries(main PRIVATE Qt6::Gui)
-target_link_libraries(main PRIVATE Qt6::WebSockets)
+target_link_libraries(Sobriquet PRIVATE Qt6::Core Qt6::Widgets Qt6::Network)
+target_link_libraries(Sobriquet PRIVATE Qt6::Widgets)
+target_link_libraries(Sobriquet PRIVATE Qt6::Gui)
+target_link_libraries(Sobriquet PRIVATE Qt6::WebSockets)
 #target_link_libraries(client PRIVATE Qt6::Network)
 #target_link_libraries(server PRIVATE Qt6::Network)
 #target_link_libraries(mainwindow PRIVATE Qt6::Core Qt6::Widgets Qt6::Network)

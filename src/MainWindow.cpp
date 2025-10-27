@@ -8,19 +8,20 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QKeyEvent>
-
+#include <QJsonObject>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
     ui = new Ui::MainWindow;
     socket = new QWebSocket();
     //server = new QWebSocketServer(QStringLiteral("Chat Server"), QWebSocketServer::NonSecureMode, this);
 
-    ui->setupUi(this);                                          
+    ui->setupUi(this);                        
     socket->open(QUrl(QStringLiteral("wss://basicgoserver.onrender.com/ws")));
 
-    connect(socket, &QWebSocket::connected, this, &MainWindow::onConnected);
-    connect(socket, &QWebSocket::textMessageReceived, this, &MainWindow::readSocket);
+    connect(ui->joinButton, &QPushButton::clicked, this, &MainWindow::joinRoom);
     connect(ui->sendButton, &QPushButton::clicked, this, &MainWindow::sendMessage);
+    
+    ui->statusLabel->setText("Status: Idle - enter room number");
 
     //connect(server, &QTcpServer::listen, this, &MainWindow::onConnected); //change onConnected
 
@@ -34,6 +35,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
 MainWindow::~MainWindow(){
     socket->close();
 };
+
+void MainWindow::joinRoom(){
+    QByteArray a;
+    
+    socket->sendBinaryMessage(a);
+}
 
 
 void MainWindow::readSocket(const QString& message){

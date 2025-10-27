@@ -37,9 +37,15 @@ static inline int _u256_is_odd(const _uint256_t dq){
 
 }
 
-static inline void _u256_lshift(const _uint256_t* dq){
-    uint64_t t = (dq->low2 & 1) << 63; //reconsider this logic because left shift means that  
-    uint64_t t = (dq->low1 >> 63) & 1;
+static inline void _u256_lshift(_uint256_t* dq){
+    uint64_t carry0 = dq->low1 >> 63; // MSB of lowest chunk
+    uint64_t carry1 = dq->low2 >> 63; // MSB of next chunk
+    uint64_t carry2 = dq->high1 >> 63; // MSB of next chunk
+
+    dq->low1 <<= 1;
+    dq->low2 = (dq->low2 << 1) | carry0;
+    dq->high1 = (dq->high1 << 1) | carry1;
+    dq->high2 = (dq->high2 << 1) | carry2;
 }
 
 void DH_generate_key_pair(DH_KEY public_key, DH_KEY private_key){
@@ -54,5 +60,11 @@ void DH_generate_key_pair(DH_KEY public_key, DH_KEY private_key){
 }
 
 void DH_generate_key_secret(DH_KEY secret_key, const DH_KEY my_private, const DH_KEY another_public){
+    _uint256_t private_k;
+    _uint256_t another_k;
+    _uint256_t secret_k;
+
+    _u256_make(&private_k, my_private);
+    _u256_make(&another_k, another_public);
 
 }

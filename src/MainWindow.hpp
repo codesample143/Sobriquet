@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow {
         void onConnected();
         void sendMessage();
         void hostRoom();
+        void joinRoom();
         //void disconnectSocket();
         //void displayMessage(const QString& str);
 

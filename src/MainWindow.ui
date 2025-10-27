@@ -7,6 +7,29 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
+    <!-- Room input -->
+    <item>
+     <layout class="QHBoxLayout" name="roomLayout">
+      <item>
+       <widget class="QLabel" name="roomLabel">
+        <property name="text">
+         <string>Room:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="roomInput"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="joinButton">
+        <property name="text">
+         <string>Join</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <!-- Chat display -->
     <item>
      <widget class="QTextEdit" name="chatDisplay">
       <property name="readOnly">
@@ -14,6 +37,8 @@
       </property>
      </widget>
     </item>
+
+    <!-- Message input -->
     <item>
      <layout class="QHBoxLayout" name="messageLayout">
       <item>
@@ -28,6 +53,8 @@
       </item>
      </layout>
     </item>
+
+    <!-- Status -->
     <item>
      <widget class="QLabel" name="statusLabel">
       <property name="text">
@@ -38,6 +65,7 @@
       </property>
      </widget>
     </item>
+
    </layout>
   </widget>
  </widget>
