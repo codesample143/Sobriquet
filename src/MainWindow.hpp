@@ -20,9 +20,12 @@ class MainWindow : public QMainWindow {
     private slots:
         void readSocket(const QString& message);
         void onConnected();
+        void onDisconnected();
         void sendMessage();
         void hostRoom();
         void joinRoom();
+
+        void serverResponseRecieved(const QByteArray& data);
         //void disconnectSocket();
         //void displayMessage(const QString& str);
 

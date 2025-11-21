@@ -16,12 +16,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
     //server = new QWebSocketServer(QStringLiteral("Chat Server"), QWebSocketServer::NonSecureMode, this);
 
     ui->setupUi(this);                        
-    socket->open(QUrl(QStringLiteral("wss://basicgoserver.onrender.com/ws")));
 
     connect(ui->joinButton, &QPushButton::clicked, this, &MainWindow::joinRoom);
     connect(ui->sendButton, &QPushButton::clicked, this, &MainWindow::sendMessage);
-    
-    ui->statusLabel->setText("Status: Idle - enter room number");
+    connect(socket, &QWebSocket::disconnected, this, &MainWindow::onDisconnected);
 
     //connect(server, &QTcpServer::listen, this, &MainWindow::onConnected); //change onConnected
 
@@ -30,6 +28,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
     //if(socket->waitForConnected()){
         //onConnected();
     //}
+
 }
 
 MainWindow::~MainWindow(){
@@ -37,9 +36,13 @@ MainWindow::~MainWindow(){
 };
 
 void MainWindow::joinRoom(){
-    QByteArray a;
-    
-    socket->sendBinaryMessage(a);
+    connect(socket, &QWebSocket::connected, this, &MainWindow::serverResponseRecieved);
+    connect(socket, &QWebSocket::binaryMessageReceived, this, &MainWindow::serverResponseRecieved); //not gonna work right now because server is not equipped to handle responding with somethign
+    connect(socket, &QWebSocket::textMessageReceived, this, &MainWindow::readSocket);
+
+    socket->open(QUrl(QStringLiteral("wss://basicgoserver.onrender.com/ws")));
+    ui->statusLabel->setText("Attempting Connection...");    
+    //socket->sendBinaryMessage(a); incomplete logic, it's gonna send a certain response to the server which will parse the bytes, then translate into creation of a distributed node systm
 }
 
 
@@ -49,6 +52,13 @@ void MainWindow::readSocket(const QString& message){
 
 void MainWindow::onConnected() {
     ui->statusLabel->setText("Connected!");
+    QByteArray qb; 
+    qb.append(ui->roomInput->text().toUtf8()); //payload of roomnumber input, more to come in the future, add salt logic later
+    socket->sendBinaryMessage(qb); //error check later on the numebr of bytes
+}
+
+void MainWindow::onDisconnected(){
+    ui->statusLabel->setText("Disconnected");
 }
 
 void MainWindow::sendMessage() {
@@ -60,7 +70,7 @@ void MainWindow::sendMessage() {
     ui->messageInput->clear();
 }
 
-void MainWindow::hostRoom(){
+void MainWindow::hostRoom(){ //for the future
     ui->statusLabel->setText("Hosting!");
 }
 
@@ -71,5 +81,6 @@ void MainWindow::keyPressEvent(QKeyEvent* event){
 }
 
 
+void MainWindow::serverResponseRecieved(const QByteArray& data){
 
-
+}
