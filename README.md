@@ -15,3 +15,8 @@ This is Sobriquet, a message exchange software that utilizes blockchain and cryp
 - **1. Working on implementing server side logic for routing and message encryption:**
     - Server should not be able to read any of the user messages after key exchange protocol goes public.  
     - The user of ScyllaDB for eventual consistency on local services, as in user hosting. 2
+## Compile
+cmake -S . -B build \
+  -DCMAKE_C_COMPILER=clang \
+  -DCMAKE_CXX_COMPILER=clang++
+cmake --build build
