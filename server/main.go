@@ -91,11 +91,11 @@ func main() {
 /*
 Alice runs GG(1n) to obtain G, a cyclic group of order q and generator g
 Alice chooses a uniform x from G (that is, an integer in Zq)
-Alice computes hash hA = gx
+Alice computes hash hA = g^x
 Alice sends G, q, g, hA  to Bob  (note that Alice does NOT send x)
 Bob  chooses a uniform y from G (that is, an integer in Zq)
-Bob computes hash hB = gy   (note that Bob does NOT send y)
-Bob sends hB  to A and computes key kB = hAy
+Bob computes hash hB = g^y   (note that Bob does NOT send y)
+Bob sends hash of B to A and computes key kB = h^(Ay)
 Alice computes key kA = hBx   
 Observe that kA = kB because (gx)y = (gy)x = (gxy)
 */

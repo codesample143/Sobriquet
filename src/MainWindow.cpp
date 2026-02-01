@@ -52,7 +52,6 @@ void MainWindow::joinRoom(){
     ui->statusLabel->setText("Attempting Connection...");    
 }
 
-
 void MainWindow::readSocket(const QString& message){
     /*
         1. Simply append to display the 'plaintext' message recieved through socket. 
