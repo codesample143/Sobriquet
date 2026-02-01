@@ -116,3 +116,4 @@ static __inline unsigned int nist_htonl(unsigned int x)
 #endif /* NIST_NTOHL */
 
 #endif /* NIST_CTR_DRBG_H */
+
